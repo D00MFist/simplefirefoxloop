@@ -11,3 +11,8 @@ while read p; do
 done  < testfire.txt
 
 #note testfire is the cleaned up list of hosts you want to browse to
+
+#----------------------can adjust the script to the following if port is something other than 80---------------------
+#while read p; do
+#        firefox $p
+#done  < testfire.txt
