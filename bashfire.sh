@@ -12,7 +12,7 @@ done  < testfire.txt
 
 #note testfire is the cleaned up list of hosts you want to browse to
 
-#----------------------can adjust the script to the following if port is something other than 80---------------------
+#----------------------can adjust the script to the following if port is something other than 80 like 8080 for example---------------------
 #while read p; do
-#        firefox $p
+#        firefox $p:8080
 #done  < testfire.txt
