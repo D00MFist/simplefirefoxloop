@@ -1,0 +1,88 @@
+#!/bin/bash
+# This bash script takes a a list of IPs and opens them in firefox for you to save time copy and pasting
+# Once you close the windows the script will go down to the next IP and open a new window
+# Note: if have a gnmap output try the following first
+# cat nmap.gnmap | cut -d " " -f2 | sed -e 's/<Nmap>//g' | sed -e 's/<Ports>//g' | sed '/^\s*$/d'
+# the above cats the file, cuts to the second field (host), removes the word Nmap, removes the word Ports, and then removes blank lines
+echo "LazyFirefox by D00mfist"
+echo "Automates opening firefox for a list of potential web portals"
+echo "-------------------------------------------------------"
+echo "Ex.: LazyFirefox /scans/targetsformatted.txt"
+echo "-------------------------------------------------------"
+echo "If the list is not formatted then refer to the following for tips"
+echo "cat nmap.gnmap | cut -d " " -f2 | sed -e 's/<Nmap>//g' | sed -e 's/<Ports>//g' | sed '/^\s*$/d' > example.txt"
+echo "-------------------------------------------------------"
+PS3='Please enter your choice: '
+options=("Option 1: Open Everything as https (443)" "Option 2: Open Everything as https (8443)" "Option 3: Open Everything as http (80)" "Option 4: Open Everything as http (8080)" "Option 5: Open Everything as Custom Port" "Quit")
+select opt in "${options[@]}"
+do
+    case $opt in
+        "Option 1: Open Everything as https (443)")
+            echo "You chose choice 1 (443)"
+	echo "Please enter the location of the file of formatted IP addresses"
+	echo "File Location: " && read iplist
+	echo "The file was saved at " ${iplist} "Opening Firefox one IP at a time"
+	echo "Opening Firefox one IP at a time"
+		while read p; do
+		firefox https://$p
+        	done < $iplist
+	echo "Finished going through the list!!!"
+	break
+	;;
+	"Option 2: Open Everything as https (8443)")
+            echo "You chose choice 2 (8443)"
+	echo "Please enter the location of the file of formatted IP addresses"
+        echo "File Location: " && read iplist
+        echo "The file was saved at " ${iplist} "Opening Firefox one IP at a time"
+        echo "Opening Firefox one IP at a time"
+                while read p; do
+                firefox https://$p:8443
+                done < $iplist
+	echo "Finished going through the list!!!"
+        break
+            ;;
+        "Option 3: Open Everything as http (80)")
+            echo "You chose choice 3 (80)"
+	echo "Please enter the location of the file of formatted IP addresses"
+        echo "File Location: " && read iplist
+        echo "The file was saved at " ${iplist} "Opening Firefox one IP at a time"
+        echo "Opening Firefox one IP at a time"
+                while read p; do
+                firefox http://$p
+                done < $iplist
+	echo "Finished going through the list!!!"
+        break
+            ;;
+	"Option 4: Open Everything as http (8080)")
+            echo "You chose choice 4 (8080)"
+	echo "Please enter the location of the file of formatted IP addresses"
+        echo "File Location: " && read iplist
+        echo "The file was saved at " ${iplist} "Opening Firefox one IP at a time"
+        echo "Opening Firefox one IP at a time"
+                while read p; do
+                firefox http://$p:8080
+                done < $iplist
+	echo "Finished going through the list!!!"
+        break
+            ;;
+	"Option 5: Open Everything as Custom Port")
+            echo "Found something intersting, did you?"
+        echo "Please enter the location of the file of formatted IP addresses"
+        echo "File Location: " && read iplist
+        echo "The file was saved at " ${iplist} 
+	echo "What's the intersting port you found. Note this will open as http://IP:CUSTOMPORT"
+	echo "Custom Port: " && read port
+	echo "HTTP, HTTPS, FTP?: " && read prefix
+        echo "Opening Firefox one IP at a time"
+                while read p; do
+                firefox $prefix://$p:$port
+                done < $iplist
+	echo "Finished going through the list!!!"
+        break
+            ;;
+        "Quit")
+            break
+            ;;
+        *) echo "invalid option $REPLY";;
+    esac
+done
